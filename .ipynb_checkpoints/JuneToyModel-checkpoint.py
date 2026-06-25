@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
-get_ipython().system('pip install lifelines')
-
-
 # In[1]:
 
 
@@ -57,7 +51,7 @@ beta1_real, beta2_real, beta3_real = 0.14, 0.03, -0.025
 # We define the model without the intercept (beta0)
 weights = beta1_real*X1 + beta2_real*X2_center + beta3_real*X3_center
 
-# Calculate the exact beta0 to achieve a rate of 0.087
+# Caluclate the exact beta0 to archieve a rate of 0.087
 # E[lambda] = exp(beta0) * mean(exp(carga_riesgo))
 # beta0 = ln(0.0876) - ln(mean(exp(carga_riesgo)))
 obj_rate= 0.0876
@@ -129,7 +123,7 @@ summary_irr = az.summary(posterior_irr, hdi_prob=0.94)
 
 print("--- INCIDENCE RATE RATIOS (IRR) with 94% HDI ---")
 
-# Forest plot of the IRR credible intervals showing whether they cross the null value (1.0)
+# Forest plot of the IRR intervals to visualize if the cross the neutral value (1.0)
 fig, ax = plt.subplots(figsize=(10, 5))
 
 # Apply plot_forest (ArviZ) without the intercept
@@ -281,7 +275,7 @@ def graph_bayesian_vs_ref_RMST(results, time_fu, ref_rate=0.0876, t_max_years=5.
         mu_matrix = posterior["mu"].values.reshape(-1, n_obs)
         lambda_individual_samples = mu_matrix / time_array
     
-    # The cohort rate is the avg. of the patients in each individual MCMC simulation
+    # La tasa de la cohorte es la media de los pacientes en cada simulación MCMC
     lambda_samples = lambda_individual_samples.mean(axis=1)
     lambda_avg_obs = lambda_samples.mean()
     
@@ -395,11 +389,11 @@ def c_statistic(results, obs_events, time_fu, ppc_var_name='obs_events'):
     print("-" * 50)
     
     if c_index >= 0.8:
-        print("Interpretation: EXCELLENT. The model distinguishes almost perfectly between risks.")
+        print("Interpretation: EXCELENT. The model distinguishes almost perfectly the risk.")
     elif c_index >= 0.7:
-        print("Interpretation: GOOD. Meets clinical standards.")
+        print("Interpretation: GOOD. Clinical standard.")
     elif c_index >= 0.6:
-        print("Interpretation: ACCECPTABLE. There is slight discrimination capacity, with room for improvement.")
+        print("Interpretation: ACCECPTABLE. There's a slight discrimination capacity, with an improvement margin.")
     else:
         print("Interpretation: POOR. Insuficient predictive capacity.")
         
@@ -416,7 +410,7 @@ def graficar_poisson_vs_modelo_tasa(results, obs_events, time_fu, ppc_var_name='
     plt.figure(figsize=(10, 6))
     
     # --- 1. DATOS EMPÍRICOS Y TIEMPO ---
-    # Convert to NumPy array to split-off from the DataFrame
+    # Convertimos a arrays de NumPy para independizarnos del DataFrame
     time_array = np.asarray(time_fu)
         
     time_tot = time_array.sum()
